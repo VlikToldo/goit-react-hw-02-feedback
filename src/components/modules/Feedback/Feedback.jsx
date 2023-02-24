@@ -3,8 +3,9 @@ import { Component } from 'react';
 import Statistics from './StatisticsBlock/Statistics';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Section from './Section/Section';
+import Notification from './Notification/Notification';
 
-const voteOption = ['good', 'neutral', 'bad'];
+
 
 class Feedback extends Component {
     state = {
@@ -47,18 +48,22 @@ class Feedback extends Component {
             <div className="">
                 <Section title="Please leave feedback">
                     <FeedbackOptions
-                        options={voteOption}
+                        options={Object.keys(this.state)}
                         onLeaveFeedback={this.onButtonClick}
                     />
                 </Section>
-                <Section title='Statistics'>
-                    <Statistics
-                        good={good}
-                        neutral={neutral}
-                        bad={bad}
-                        total={total}
-                        positivePercentage={positiveFeedbackPercentage}
-                    />
+                <Section title="Statistics">
+                    {((Boolean(!total)) && (
+                        <Notification message="There is no feedback" />)
+                    ) || (
+                        <Statistics
+                            good={good}
+                            neutral={neutral}
+                            bad={bad}
+                            total={total}
+                            positivePercentage={positiveFeedbackPercentage}
+                        />
+                    )}
                 </Section>
             </div>
         );
